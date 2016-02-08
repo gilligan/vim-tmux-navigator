@@ -11,6 +11,11 @@ if !exists("g:tmux_navigator_save_on_switch")
   let g:tmux_navigator_save_on_switch = 0
 endif
 
+if exists('$TMUX')
+    autocmd VimEnter * silent execute '!tmux set-environment ${TMUX_PANE}_is_vim true'
+    autocmd VimLeavePre * silent execute '!tmux set-environment -u ${TMUX_PANE}_is_vim'
+endif
+
 function! s:TmuxOrTmateExecutable()
   if s:StrippedSystemCall("[[ $TMUX == *'tmate'* ]] && echo 'tmate'") == 'tmate'
     return "tmate"
